@@ -1,7 +1,7 @@
 
 import { combineReducers } from 'redux'
-import {Users ,Lists ,Choice , Layouts ,ImgRecent ,PreViewReducer} from './Reducer'
+import {Users ,Lists ,Choice , Layouts ,ImgRecent ,PreViewReducer ,AddListItem} from './Reducer'
 
-const RootReducer = combineReducers({Users ,Lists ,Choice ,Layouts ,ImgRecent ,PreViewReducer})
+const RootReducer = combineReducers({Users ,Lists ,Choice ,Layouts ,ImgRecent ,PreViewReducer ,AddListItem})
 
 export default RootReducer

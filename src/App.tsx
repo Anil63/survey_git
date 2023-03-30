@@ -6,17 +6,27 @@ import Login from './Components/sign up/Login';
 import Create from './Pages/Create';
 import Add_list from './Pages/Add_list';
 import PreView from './Pages/PreView';
+import Public from './Pages/Public';
+import React from 'react';
 function App() {
+  
+  const [] = React.useState()
+
   return (
     <div className="Routes">
-      <Navbar/>
+   
       <Routes>
-        <Route path='/' element={<Index/>} />
-        <Route path='/Login' element={<Login/>} />
-        <Route path='/list' element={<Add_list/>} />
-        <Route path='/Create/:id' element={<Create/>} />
-        <Route path='/PreView' element={<PreView/>} />
+        <Route path='/' element={<> <Navbar /><Index /></>} />
+        <Route path='/Login' element={<><Navbar /><Login/>
+        </>} />
+        <Route path='/list' element={<> <Navbar /><Add_list/></>} />
+        <Route path='/Create/:id' element={ <> <Navbar /><Create/></>} />
+        <Route path='/PreView' element={<> <Navbar /><PreView/></>} />
+        <Route path='/Public' element={<> <Public/> </>}  />
       </Routes>
+      
+      
+      
     </div>
   );
 }

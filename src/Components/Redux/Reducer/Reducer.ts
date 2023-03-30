@@ -9,6 +9,9 @@ import {
   Layout_text,
   imgUpload,
   PreViewType,
+  Qution_type_Ans,
+  AddNotess,
+  DeleteList,
 } from "../Action/ActionType";
 
 export interface state {
@@ -118,6 +121,16 @@ export const Lists = (state = ListState, action: LisAction) => {
   switch (action.type) {
     case AddListener:
       const { id, Title } = action.Payload;
+      fetch(` http://localhost:3004/AddListener`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(action.Payload),
+      }).then((res) => res.json().then((res) => console.log("success", res)));
+      
+      
       return {
         List: [
           ...state.List,
@@ -130,11 +143,24 @@ export const Lists = (state = ListState, action: LisAction) => {
 
     case DelteList_id:
       const data = state.List.filter((i: any) => i.id !== action.Payload.id);
-
+      fetch(`http://localhost:3004/AddListener/${action.Payload.id}`, {
+        method: "DELETE",
+      }).then(() => console.log("Delete successful"));
+     
       return { ...state, List: data };
 
     case TitleChange:
       const { title, Pre_id } = action;
+      const updateData = { Title: title, id: Pre_id}
+      fetch(`http://localhost:3004/AddListener/${Pre_id}`, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateData),
+      }).then(() => console.log("Updated successful"));
+     
       const ListIndex = state.List.findIndex((i: any) => i.id === Pre_id);
       if (ListIndex >= 0) {
         state.List[ListIndex].Title = title;
@@ -148,7 +174,17 @@ export const Lists = (state = ListState, action: LisAction) => {
 export const Choice = (state = ListState, action: LisAction) => {
   switch (action.type) {
     case Choicefilds:
+      fetch(`  http://localhost:3004/Filds`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(action.Payload),
+      }).then((res) => res.json().then((res) => console.log("success", res)));
+      
       const { field, id, Prent_id } = action.Payload;
+
 
       return {
         Choicesfield: [
@@ -158,6 +194,10 @@ export const Choice = (state = ListState, action: LisAction) => {
       };
 
     case Delete_Choice:
+      fetch(`http://localhost:3004/Filds/${action.Payload.id}`, {
+        method: "DELETE",
+      }).then(() => console.log("Delete successful"));
+     
       const data = state.Choicesfield.filter(
         (i: any) => i.id !== action.Payload.id
       );
@@ -221,27 +261,101 @@ export const ImgRecent = (state = ListState, action: LisAction) => {
   }
 };
 
+interface Addliart {
+  Addlist: [];
+}
+
+interface Addlist {
+  type: "AddNotess";
+  payload:{Id: string , PrentId:string}
+ 
+}
+interface Dlete {
+  type:"DeleteList"
+  payload:{id:string}
+  
+}
+const initialPreViewStateAddList: Addliart = {
+  Addlist: [],
+};
+type Addlistitem = Addlist| Dlete
+
+
+export const AddListItem = (state =initialPreViewStateAddList , action:Addlistitem) =>{
+  switch(action.type){
+    case AddNotess:
+    
+      const { Id , PrentId  } = action.payload
+      return  { 
+        Addlist: [
+          ...state.Addlist,
+          {
+          listId:Id,
+          ListTitle:"ListTitle",
+          Pre_id:PrentId
+          },
+        ],
+      };
+
+      case DeleteList :
+        
+        const data = state.Addlist.filter((i: any) => i.listId !== action.payload.id);
+      
+      return { ...state, Addlist: data };
+    default : return state
+  }
+}
+
 interface PreView_typ {
-  Preview : []
+  Preview: [];
 }
 
 interface View {
-  type:"PreViewType"
-  Payload:{components:any}
+  type: "Qution_type_Ans";
+  Payload: {
+    data: {
+      Description: string;
+      fild_choice: string;
+      fild_id: string;
+      qution: string;
+      url_id: string;
+    };
+  };
 }
-const  initialPreViewState:PreView_typ = {
-  Preview :[]
-}
-type  Preview_ty = View
-export const PreViewReducer = (state =initialPreViewState  , action:Preview_ty) =>{
-  switch(action.type){
-    case PreViewType:
-      
-      const { components} = action.Payload
-      return {Preview:[...state.Preview,{
-        view_components: components
-      }]}
-    default :
-    return state
+const initialPreViewState: PreView_typ = {
+  Preview: [],
+};
+type Preview_ty = View;
+export const PreViewReducer = (
+  state = initialPreViewState,
+  action: Preview_ty
+) => {
+  switch (action.type) {
+    case Qution_type_Ans:
+      const { Description, fild_choice, fild_id, qution, url_id } =
+        action.Payload.data;
+      fetch(` http://localhost:3004/qution`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(action.Payload.data),
+      }).then((res) => res.json().then((res) => console.log("success", res)));
+      return {
+        Preview: [
+          ...state.Preview,
+          {
+            Prent_id: url_id,
+            Fild_id: fild_id,
+            fild_choice: fild_choice,
+            Qution: qution,
+            Description: Description,
+          },
+        ],
+      };
+
+    default:
+      return state;
   }
-}
+};

@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate , NavLink} from 'react-router-dom'
 import { ListItem, Delete_List } from "../Components/Redux/Action/Action";
 
 const Add_list: React.FC = () => {
   const Dispatch = useDispatch();
+  const [List , setList] = useState<any>();
   const list = useSelector((state: any) => state.Lists.List);
   const use = useSelector((state:any)=>state.Users.user)  
   const navigate = useNavigate()
@@ -13,8 +14,8 @@ const Add_list: React.FC = () => {
   };
 
   useEffect(()=>{
-   
-  },[use])
+    fetch(`http://localhost:3004/AddListener`).then((res)=>res.json().then((data)=>setList(data)))
+  },[use ,list])
 
   return (
     <div>
@@ -32,7 +33,7 @@ const Add_list: React.FC = () => {
 
           {/* this is result */}
 
-          {list ? list.map(
+          {List ? List.map(
             ( list: { Title: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; id: number; }, index: number
             ) => {
               return (

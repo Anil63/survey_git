@@ -20,12 +20,13 @@ import View from "./View";
 const Create = () => {
   const [showchoince, setShowchoince] = useState(false);
   const [selected, setSelecte] = React.useState<any>();
+  const [choiceFils , setChoiceFils] = React.useState<any>();
   const { id } = useParams();
   const Dispatch = useDispatch();
   const Fild = useSelector((state: any) => state.Choice.Choicesfield);
 
 
-  const choice = Fild.filter((i: any) => i.Prent_id === id);
+  const choice = choiceFils?.filter((i: any) => i.Prent_id === id);
 
   
 
@@ -44,13 +45,17 @@ const Create = () => {
   };
 
   useEffect(()=>{
+    fetch(`http://localhost:3004/Filds`).then((res)=>res.json().then((data)=>setChoiceFils(data)))
 
-    const choiceData: {
-      id: string | undefined;
-      choice: string
-    } = { id: id, choice:"MultipleChoice" };
-    Dispatch(Choicefild(choiceData));
-  } , [])
+    // const choiceData: {
+    //   id: string | undefined;
+    //   choice: string
+    // } = { id: id, choice:"MultipleChoice" };
+    // Dispatch(Choicefild(choiceData));
+  } , [Fild])
+
+console.log("choiceFils",choiceFils)
+
   const LayoutSelected = (e: any) => {
     console.log("Layout Selected", e);
   };
@@ -171,29 +176,30 @@ const Create = () => {
             <div className="choicefild">
               {choice
                 ? choice.map(
-                    (i: { choice: string; id: number }, Index: any) => {
+                    (i: { field: string; id: number }, Index: any) => {
                       let c =
-                        i.choice === "MultipleChoice" ? (
+                        i.field === "MultipleChoice" ? (
                           <i className="fa-solid fa-check"></i>
-                        ) : i.choice === "Textbox" ? (
+                        ) : i.field === "Textbox" ? (
                           <DashOutlined />
-                        ) : i.choice === "Date" ? (
+                        ) : i.field === "Date" ? (
                           <i className="fa-regular fa-calendar"></i>
-                        ) : i.choice === "Feedback" ? (
+                        ) : i.field === "Feedback" ? (
                           <StarOutlined />
-                        ) : i.choice === "Textarea" ? (
+                        ) : i.field === "Textarea" ? (
                           <i className="fa-solid fa-align-center"></i>
-                        ) : i.choice === "Number" ? (
+                        ) : i.field === "Number" ? (
                           <FieldNumberOutlined />
-                        ) : i.choice === "Email" ? (
+                        ) : i.field === "Email" ? (
                           <MailOutlined />
-                        ) : i.choice === "Website" ? (
+                        ) : i.field === "Website" ? (
                           <i className="fa-solid fa-link"></i>
-                        ) : i.choice === "Phone" ? (
+                        ) : i.field === "Phone" ? (
                           <i className="fa-solid fa-phone"></i>
                         ) : (
                           ""
                         );
+
                       let inde = Index + 1;
                       return (
                         <li className="ch_option" key={Index}>
@@ -218,7 +224,7 @@ const Create = () => {
         </div>
         <div className="create_resu">
           <div className="view">
-            <View id={id} AddFild={selected} />
+            <View id={id} AddFild={selected} dataInserted={undefined} />
           </div>
         </div>
         <div className="create_list_setring">

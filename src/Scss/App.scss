@@ -419,14 +419,7 @@
             font-size: 20px;
             border: 1px solid #0445af;
           }
-          .multiple-choice_input {
-            cursor: pointer;
-            width: auto;
-            background: transparent;
-            border: none;
-            color: #0445af;
-            font-size: 20px;
-          }
+       
           #input_delete {
             font-size: 20px;
             display: flex;
@@ -451,6 +444,19 @@
         color: #0f0fc8;
       }
     }
+    .multiple-choice_input_div{
+     
+.multiple-choice_input{
+  background-color: #B3C7E7;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 10px; 
+    margin:  10px 0;
+}
+    }
+
     // texbox component styles
     .TexBox__answer {
       .textbox {
@@ -482,6 +488,7 @@
       }
     }
 
+    
     // end
     // Feetback
     .Feetback_ans {
@@ -771,4 +778,35 @@
   .btn_b_con_Dn{
     @include btn
   }
+}
+
+
+// publich page
+.publish_page{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50rem;
+}
+
+.copy_link{
+  border-top: 1px solid #bdbdbd;
+  display: flex;
+  width: 15rem;
+  justify-content: space-between;
+padding-top: 10px;
+.copy_input{
+  background-color: #dadada;
+  color: #474747;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+}
+.copy_btn{
+  border: none;
+  background-color: #000;
+  color: #d9d9d9;
+  padding: 5px;
+  border-radius: 5px;
+}
 }

@@ -9,6 +9,9 @@ import {
   ,Layout_text,
   imgUpload
   ,PreViewType
+  ,Qution_type_Ans
+  ,AddNotess,
+  DeleteList
 } from "./ActionType";
 
 export const Loginset = (data: any) => {
@@ -34,6 +37,7 @@ export const ListName = (data: any) => {
   };
 };
 export const Delete_List = (id: any) => {
+  console.log("delete_list", id);
   return {
     type: DelteList_id,
     Payload: {
@@ -92,6 +96,19 @@ export const imgUpload_Action = (data:any) =>{
   }
 }
 
+export const Qution_Ans = (Data:any) =>{
+  console.log("Qution_and_action", Data);
+  return {
+    type : Qution_type_Ans,
+    Payload:{
+      data:Data
+    }
+
+  }
+
+}
+
+// in test
 export const PreView_Action = (data:any) =>{
 
   return {
@@ -99,5 +116,29 @@ export const PreView_Action = (data:any) =>{
     Payload:{
       components:data
     }
+  }
+}
+
+
+
+export const AddNotes = (data:any , PrentId:any) =>{
+ 
+  return {
+      type:AddNotess,
+      payload:{
+          Id: new Date().getTime().toString(),
+          PrentId: PrentId
+      }
+
+  }
+}
+
+
+export const DeleteLis = (id:string) => {
+
+  return {
+    type:DeleteList,
+    payload:{id:id}
+    
   }
 }
